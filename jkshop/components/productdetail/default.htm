@@ -1,0 +1,615 @@
+{% if not product %}
+    <div class="row">
+        <div class="col-sm-12">
+            Product not found
+        </div>
+    </div>
+
+{% else %}
+
+<div class="item-page">
+  <div class="item-container item-row-1">
+    <div class="ui grid">
+      <div class="two wide column">
+        {% for image in product.images %}
+        <div class="item-image-sm">
+          <img class="img-gallery" src="{{image.path}}" rel="galery1">
+        </div>
+        {% else %}
+        <div class="item-image-sm">
+          <img class="img-gallery" src="{{ product.getMainImagePath }}" rel="galery1">
+        </div>
+        {% endfor %}
+      </div>
+      <div class="item-image seven wide column">
+        {% if product.getMainImage %}
+          <div class="item-image-main" id="product-detail-main-image">
+            <img id="main-image" src="{{ product.getMainImagePath }}" class="img-responsive cursor-pointer" >
+          </div>
+        {% endif %}
+      </div>
+      <div class="buy-config seven wide column">
+        <div class="bc-text">
+          <div class="bc-text-01">{{ product.title }}</div>
+          <div class="bc-text-02">{{ product.getFinalPriceFormated }}</div>
+          <div class="bc-text-03">
+            <div class="frame-1-stars">
+              <div class="frame-1-star">
+                <i class="fa fa-star"></i>
+              </div>
+              <div class="frame-1-star">
+                <i class="fa fa-star"></i>
+              </div>
+              <div class="frame-1-star">
+                <i class="fa fa-star"></i>
+              </div>
+              <div class="frame-1-star">
+                <i class="fa fa-star"></i>
+              </div>
+              <div class="frame-1-star">
+                <i class="fa fa-star-o"></i>
+              </div>
+            </div>
+            <div class="total-review">23 Reviews</div>
+          </div>
+          <div class="ui divider"></div>
+          <div class="bc-text-04">
+            <div class="title-3">Color</div>
+            <div class="choose-color">
+              <div class="box-3 active c1"></div>
+              <div class="box-3 c2"></div>
+              <div class="box-3 c3"></div>
+            </div>
+          </div>
+          <div class="ui divider"></div>
+          <div class="bc-text-05">
+            <div class="title-3">Size in stocks</div>
+            <div class="choose-size">
+              {% if product.isAllowOrder %}
+                <form data-request="onAddToBasket" id="form-add-to-basket">
+                    <input type="hidden" name="id" value="{{ product.id }}">
+                
+                    {# ------------------------------- #}
+                    {# Properties for product #}
+                    {# ------------------------------- #}
+                    {% if product.properties %}
+                        <!-- <div class="product-properties"> -->
+                        {% for property in product.getFullProperties %}
+                        <div class="product-property-row">
+                          {% partial __SELF__ ~'::property-input' property = property product = product %}
+                        </div>
+                        {% endfor %}
+                        <!-- </div> -->
+                    {% endif %}
+                    {# ------------------------------- #}  
+   
+              <!-- <div class="box-4 size-box active size-sm">S</div>
+              <div class="box-4 size-box size-md">M</div>
+              <div class="box-4 size-box size-lg">L</div>
+              <div class="box-4 size-box size-xl">XL</div> -->
+            </div>
+          </div>
+          <div class="ui divider"></div>
+          <div class="bc-text-06">
+            <div class="title-3">Quantity</div>
+            <div class="item-btn-group">
+              <div class="increment-btn">     
+                <div class="ui left action input">
+                  <button class="ui icon button quantity-left-minus" data-type="minus" data-field="">
+                    <i class="minus icon"></i>
+                  </button>
+                  <input type="text" id="quantity" name="default_quantity_operation" class="form-control input-number" value="{{ product.minimum_quantity }}" min="{{ product.minimum_quantity }}" max="100">
+                  <button class="ui icon button quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="">
+                    <i class="add icon"></i>
+                  </button>
+                </div>
+              </div>    
+              <!-- <div class="btn-01"><i class="icon fa-shopping-cart"></i> ADD TO CART</div> -->
+              <button class="btn-01" type="submit"><i class="icon fa-shopping-cart"></i> ADD TO CART</button>
+                    
+                </form>
+                {% endif %}
+            </div>
+            <div class="clearfix"></div>
+            <div class="bct06-1"><i class="icon fa-rotate-left"></i> <p>15 days easy returns</p></div>
+            <div class="bct06-2"><i class="icon fa-truck"></i> <p>Check delivery time for your location</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui divider"></div>
+  <div class="item-container item-row-2">
+    <div class="ir2-text-1">
+      <div class="tb2">
+        <div class="the-brand"><h3>Product Details</h3></div>
+        <hr class="hr-inline">
+      </div>
+    </div>
+    <div class="ir2-text-2">
+      <div class="ir2-2-1">
+        <div class="title-4">Fabric & Care</div>
+        <ul class="ul-left">
+          <li>Fabric: Polyamide Spandex</li>
+          <li>Do Not Iron</li>
+          <li>Hand Wash Allowed</li>
+        </ul>
+        <ul class="ul-right">
+          <li>Do Not Bleach</li>
+          <li>Wash Below 30 C</li>
+          <li>Wash Dark Colours Separately</li>
+        </ul>
+      </div>
+      <div class="clearfix"></div>
+      <div class="ir2-2-2">
+        <div class="title-4">Features</div>
+        <ul class="ul-left">
+          <li>Light control for smoothening out bulges & for 12 Hr wear</li>
+          <li>12 Hour shapewear - extremely lightweight & comfortable</li>
+          <li>Elastane blended for stretch & shape retention</li>
+          <li>Long shaping skirt for stomach & thigh shaping</li>
+        </ul>
+      </div>
+      <div class="clearfix"></div>
+      <div class="ui divider"></div>
+      <div class="ir2-2-3">
+        <div class="title-4">Reviews</div>
+        <p>Be the first to review this product</p>
+        <div class="frame-1-stars">
+          <div class="frame-1-star">
+            <i class="fa fa-star-o"></i>
+          </div>
+          <div class="frame-1-star">
+            <i class="fa fa-star-o"></i>
+          </div>
+          <div class="frame-1-star">
+            <i class="fa fa-star-o"></i>
+          </div>
+          <div class="frame-1-star">
+            <i class="fa fa-star-o"></i>
+          </div>
+          <div class="frame-1-star">
+            <i class="fa fa-star-o"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui divider"></div>
+  <div class="item-row-3">
+    <i class="icon fa-angle-left"></i>
+    <div class="container">
+      <div class="intro">
+        <div class="title">
+          <div class="Line-1"></div>
+          <div class="best-title"><h2>You Might Also Like</h2></div>
+          <div class="Line-2"></div>
+        </div>
+      </div>
+      <div class="Shop-our-latest-tren">
+        Don’t miss this great style don’t miss this great style don’t miss this great style
+      </div>
+      <div class="best-frames">
+        <div class="ui grid">
+          <div class="five column row">
+            <div class="column">
+              <div class="frame-1">
+                <img src="{{'assets/img/sample/image-1.jpg'|theme}}" srcset="{{'assets/img/sample/image-1@2x.jpg 2x'|theme}}", "{{'assets/img/sample/image-1@3x.jpg 3x'|theme}}" class="image-1">
+                <img src="{{'assets/img/icon/heart-o-font-awesome.png'|theme}}" srcset="{{'assets/img/icon/heart-o-font-awesome@2x.png 2x'|theme}}", "{{'assets/img/icon/heart-o-font-awesome@3x.png 3x'|theme}}" class="heart-o---FontAwesome">
+                <div class="Rectangle-7">
+                  <div class="frame-1-price">Rp325.000</div>
+                  <div class="frame-1-description">Rosaline Defyant Reversible Dot Shorts</div>
+                  <div class="frame-1-stars">
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star-o"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <div class="frame-1">
+                <img src="{{'assets/img/sample/image-2.jpg'|theme}}" srcset="{{'assets/img/sample/image-2@2x.jpg 2x'|theme}}", "{{'assets/img/sample/image-2@3x.jpg 3x'|theme}}" class="image-1">
+                <img src="{{'assets/img/icon/heart-o-font-awesome.png'|theme}}" srcset="{{'assets/img/icon/heart-o-font-awesome@2x.png 2x'|theme}}", "{{'assets/img/icon/heart-o-font-awesome@3x.png 3x'|theme}}" class="heart-o---FontAwesome">
+                <div class="Rectangle-7">
+                  <div class="frame-1-price">Rp325.000</div>
+                  <div class="frame-1-description">Rosaline Padded Wirefree Full Coverage Crossover</div>
+                  <div class="frame-1-stars">
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star-o"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <div class="frame-1">
+                <img src="{{'assets/img/sample/image-3.jpg'|theme}}" srcset="{{'assets/img/sample/image-3@2x.jpg 2x'|theme}}", "{{'assets/img/sample/image-3@3x.jpg 3x'|theme}}" class="image-1">
+                <img src="{{'assets/img/icon/heart-o-font-awesome.png'|theme}}" srcset="{{'assets/img/icon/heart-o-font-awesome@2x.png 2x'|theme}}", "{{'assets/img/icon/heart-o-font-awesome@3x.png 3x'|theme}}" class="heart-o---FontAwesome">
+                <div class="Rectangle-7">
+                  <div class="frame-1-price">Rp325.000</div>
+                  <div class="frame-1-description">Behaku Cotton Wirefree Cut N Sew Bra- Purple</div>
+                  <div class="frame-1-stars">
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star-o"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <div class="frame-1">
+                <img src="{{'assets/img/sample/image-4.jpg'|theme}}" srcset="{{'assets/img/sample/image-4@2x.jpg 2x'|theme}}", "{{'assets/img/sample/image-4@3x.jpg 3x'|theme}}" class="image-1">
+                <img src="{{'assets/img/icon/heart-o-font-awesome.png'|theme}}" srcset="{{'assets/img/icon/heart-o-font-awesome@2x.png 2x'|theme}}", "{{'assets/img/icon/heart-o-font-awesome@3x.png 3x'|theme}}" class="heart-o---FontAwesome">
+                <div class="Rectangle-7">
+                  <div class="frame-1-price">Rp380.000</div>
+                  <div class="frame-1-description">Behaku Cotton Wirefree Cut N Sew Bra- Purple</div>
+                  <div class="frame-1-stars">
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star-o"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <div class="frame-1">
+                <img src="{{'assets/img/sample/image-2.jpg'|theme}}" srcset="{{'assets/img/sample/image-2@2x.jpg 2x'|theme}}", "{{'assets/img/sample/image-2@3x.jpg 3x'|theme}}" class="image-1">
+                <img src="{{'assets/img/icon/heart-o-font-awesome.png'|theme}}" srcset="{{'assets/img/icon/heart-o-font-awesome@2x.png 2x'|theme}}", "{{'assets/img/icon/heart-o-font-awesome@3x.png 3x'|theme}}" class="heart-o---FontAwesome">
+                <div class="Rectangle-7">
+                  <div class="frame-1-price">Rp280.000</div>
+                  <div class="frame-1-description">Rosaline Defyant Reversible Dot Shorts</div>
+                  <div class="frame-1-stars">
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <div class="frame-1-star">
+                      <i class="fa fa-star-o"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </div>
+    <i class="icon fa-angle-right"></i>
+  </div>
+</div>
+{% put scripts %}
+<script>
+  /* increment button */
+  $(document).ready(function(){
+
+    var quantitiy=0;
+       $('.quantity-right-plus').click(function(e){
+            
+            // Stop acting like a button
+            e.preventDefault();
+            // Get the field name
+            var quantity = parseInt($('#quantity').val());
+            
+            // If is not undefined
+                
+                $('#quantity').val(quantity + 1);
+
+              
+                // Increment
+            
+        });
+
+         $('.quantity-left-minus').click(function(e){
+            // Stop acting like a button
+            e.preventDefault();
+            // Get the field name
+            var quantity = parseInt($('#quantity').val());
+            
+            // If is not undefined
+          
+                // Increment
+                if(quantity>0){
+                $('#quantity').val(quantity - 1);
+                }
+        });
+        
+    });
+
+</script>
+{% endput %}
+
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- /////////////////////////////////////////////// -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="product-detail">
+{% if not product %}
+    <div class="row">
+        <div class="col-sm-12">
+            Product not found
+        </div>
+    </div>
+
+{% else %}
+
+
+    <div class="row product-detail-left">
+        <div class="col-sm-5">
+            {% if product.getMainImage %}
+            <div class="product-detail-main-image" id="product-detail-main-image">
+                <img src="{{ product.getMainImagePath }}" class="img-responsive cursor-pointer" >
+            </div>
+            {% endif %}
+            <!-- //// -->
+            <div class="product-detail-list-of-images">
+                {% for image in product.images %}
+                <a href="{{ image.path }}" rel="galery1">
+                    <img src="{{ image.thumb(60,60, { extension: 'png' }) }}" class="cursor-pointer" >
+                </a>
+                {% else %}
+                <a href="{{ product.getMainImagePath }}" rel="galery1">
+                    <img src="{{ product.getMainImage.thumb(60,60, { extension: 'png' }) }}" class="cursor-pointer" >
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+<!-- /// -->
+        <div class="col-sm-7 product-detail-right">
+            <h1 id="product-title">
+                {{ product.title }}
+                <span id="product-option-title"></span>
+            </h1>
+            <div class="product-detail-description">
+                {{ product.description|raw }}
+                <div id="product-option-description">
+                    
+                </div>
+            </div>
+            
+            {% if product.customization|length > 0 %}
+            <div>
+                {% for custField in product.customization %}
+                <div>
+                    {{ custField.label }}: <strong>{{ custField.value }}</strong>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            {% if product.brand %}
+            <div>
+                <div>
+                    Brand: 
+                    {% if (product.brand.url) %}
+                    <strong><a href="{{product.brand.url}}">{{ product.brand.title }}</a></strong>
+                    {% else %}
+                    <strong>{{ product.brand.title }}</strong>
+                    {% endif %}
+                    
+                </div>
+            </div>
+            {% endif %}            
+            
+            <h4 id="product-price">
+                {{ product.getFinalPriceFormated }}
+            </h4>
+            <div class="text-uppercase row-border">
+                {% if product.on_sale %}
+                <span class="label label-success">On Sale</span>
+                {% endif %}
+                
+                
+                {% if (product.quantity / product.minimum_quantity > 1) %}
+                    <span class="label label-success">In stock</span>
+                {% else %}
+                    <span class="label label-danger">Sold out</span>
+                    <smal>{{ product.availability_date ? '(availability '~product.availability_date|date("d.m.Y")~')' : '' }}</smal>
+                {% endif %}
+                
+                <span class="label label-default">{{ product.getConditionLabel }}</span>                
+            </div>
+            <div>
+                
+
+                
+                {% if product.isAllowOrder %}
+                <form data-request="onAddToBasket" id="form-add-to-basket">
+                    <input type="hidden" name="id" value="{{ product.id }}">
+                
+                    {# ------------------------------- #}
+                    {# Properties for product #}
+                    {# ------------------------------- #}
+                    {% if product.properties %}
+                        <div class="product-properties">
+                        {% for property in product.getFullProperties %}
+                        <div class="product-property-row">
+                            {% partial __SELF__ ~'::property-input' property = property product = product %}
+                            </div>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                    {# ------------------------------- #}  
+                    
+                    <div class="row-border">
+                        <input type="number" placeholder="Quantity" name="default_quantity_operation" min="{{ product.minimum_quantity }}" value="{{ product.minimum_quantity }}">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Add to Cart</button>
+                    
+                </form>
+                {% endif %}
+            </div>
+
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+
+    {% if product.attachments|length > 0 %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Attachments</h3>
+            {% for file in product.attachments %}
+            <a href="{{ file.path }}" target="_blank">{{ file.title ?  file.title : file.file_name }}</a><br />
+            {% endfor %}
+        </div>
+
+        <div class="clearfix"></div>    
+    </div>
+    {% endif  %}
+
+
+
+    {% if accessories|length > 0 %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Accessories</h3>
+            <div class="row">
+
+                {% for accessoriesProduct in accessories %}
+                <div class="col-sm-3">
+                    <h4 class="cursor-pointer" onclick="location.href = '{{ accessoriesProduct.url}}'">{{ accessoriesProduct.title }}</h4>
+                    <div class="product-description">{{ accessoriesProduct.short_description ? accessoriesProduct.short_description|raw : accessoriesProduct.description|raw }}</div>
+                    <div class="text-center">
+                        {% if accessoriesProduct.images|length > 0 %}
+                        <img src="{{ accessoriesProduct.images[0].thumb(auto,150, { extension: 'png' }) }}" class="img-responsive cursor-pointer" onclick="location.href = '{{ accessoriesProduct.url}}'" >
+                        {% endif %}
+                    </div>
+                    <h4>
+                        {{ accessoriesProduct.getFinalPriceFormated }}
+                    </h4>
+                </div>        
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <div class="clearfix"></div>    
+    </div>
+    {% endif  %}
+
+    {% if featured|length > 0 %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Featured Products</h3>
+            <div class="row">
+
+                {% for featuredOProduct in featured %}
+                    <div class="col-sm-3">
+                        <h4 class="cursor-pointer" onclick="location.href = '{{ featuredOProduct.url}}'">{{ featuredOProduct.title }}</h4>
+                        <div class="product-description">{{ featuredOProduct.short_description ? featuredOProduct.short_description|raw : featuredOProduct.description|raw }}</div>
+                        <div class="text-center">
+                            {% if featuredOProduct.images|length > 0 %}
+                            <img src="{{ featuredOProduct.images[0].thumb(auto,150, { extension: 'png' }) }}" class="img-responsive cursor-pointer" onclick="location.href = '{{ featuredOProduct.url}}'" >
+                            {% endif %}
+                        </div>
+                        <h4>
+                            {{ featuredOProduct.getFinalPriceFormated }}
+                        </h4>
+                    </div>        
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <div class="clearfix"></div>    
+    </div>
+    {% endif  %}
+
+{% endif %}
+</div>
+
+<script>
+$( document ).ready(function() {
+    $("#form-add-to-basket select:first").change();
+});
+    
+</script>
+    
