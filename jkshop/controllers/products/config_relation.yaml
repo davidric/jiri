@@ -3,7 +3,7 @@
 # ===================================
 
 accessories:
-    label: jiri.jkshop::lang.products.accessories
+    label: Colors
     view:
         list: $/jiri/jkshop/models/product/columns.yaml
         toolbarButtons: add|remove
