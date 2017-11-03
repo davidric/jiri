@@ -87,6 +87,7 @@ class ProductsByCategory extends ComponentBase
         
         // get products
         $products = $this->loadProducts();
+        // $productsNumber = count($products);
 
         // pagination
         $this->pageParam = $this->page['pageParam'] = $this->paramName('pageNumber');
@@ -95,6 +96,8 @@ class ProductsByCategory extends ComponentBase
         $productsPagination = new \Illuminate\Pagination\LengthAwarePaginator($products, count($products), $perPage, $page);
         $productsPagination->setPath(\Request::url()."/N");
         $this->productsPagination = $this->page['productsPagination'] = $productsPagination;
+
+        var_dump(count($products));
         
         // jkshopsetting
         $this->page['jkshopSetting'] = \Jiri\JKShop\Models\Settings::instance();

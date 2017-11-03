@@ -181,7 +181,8 @@ tabs:
         #     type: number
 
         package_weight:
-            tab: jiri.jkshop::lang.products.size_weight
+            # tab: jiri.jkshop::lang.products.size_weight
+            tab: Weight
             label: jiri.jkshop::lang.products.package_weight
             span: auto  
             type: number
@@ -227,42 +228,28 @@ tabs:
             mode: date            
 
 
-# Customization
-
-        customization:
-            tab: jiri.jkshop::lang.products.customization_tab
-            label: jiri.jkshop::lang.products.customization
-            type: repeater
-            form:
-                fields:
-                    label:
-                        label: jiri.jkshop::lang.products.label
-                        type: text
-                    value:
-                        label: jiri.jkshop::lang.products.value
-                        type: text
                         
 # Properties
 
         basic_properties_section:
-            tab: jiri.jkshop::lang.products.properties_tab
-            label: jiri.jkshop::lang.products.basic_properties_section
+            tab: Size
+            label: General Size  
             type: section
-            comment: Properties baru bisa ditambahkan setelah produk dibuat!
+            comment: Centang salah satu jenis ukuran dibawah jika semua ukuran tersedia
     
         properties:
-            tab: jiri.jkshop::lang.products.properties_tab
+            tab: Size
             type: relation
             select: title
             
         advanced_properties_section:
-            tab: jiri.jkshop::lang.products.properties_tab
-            label: jiri.jkshop::lang.products.advanced_properties_section
+            tab: Size
+            label: Advanced Size
             type: section
-            comment: jiri.jkshop::lang.products.advanced_properties_section_comment
+            comment: Pilih ukuran produk yang tersedia. (Advanced Size ini baru dapat dipilih setelah klik tombol 'save' dibawah)
             
         propertyOptions:
-            tab: jiri.jkshop::lang.products.properties_tab
+            tab: Size
             type: partial
             path: ~/plugins/jiri/jkshop/models/product/_property_options_relation.htm
             
@@ -273,6 +260,7 @@ tabs:
             tab: Colors
             label: Colors
             type: partial
+            comment: Untuk menambahkan warna produk, perlu dibuat semua jenis warna produk terlebih dahulu
             path: ~/plugins/jiri/jkshop/models/product/_accessories_relation.htm
 
 
@@ -292,6 +280,21 @@ tabs:
             type: fileupload
             mode: image
             
+# Customization
+
+        customization:
+            tab: jiri.jkshop::lang.products.customization_tab
+            label: jiri.jkshop::lang.products.customization
+            type: repeater
+            form:
+                fields:
+                    label:
+                        label: jiri.jkshop::lang.products.label
+                        type: text
+                    value:
+                        label: jiri.jkshop::lang.products.value
+                        type: text
+
 # Attachments
         attachments:
             label: jiri.jkshop::lang.products.attachments
