@@ -74,11 +74,14 @@ class ProductsByCategory extends ComponentBase
     public function getProductPageOptions()
     {
         return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
-    }    
+    }  
+
+    
     
     
     public function onRun()
     {
+        $this->page->testing = "testing";
         $slug = $this->property('category');
         $category = \Jiri\JKShop\Models\Category::where('slug', $slug)->first();
         if ($category == null) {
@@ -87,17 +90,17 @@ class ProductsByCategory extends ComponentBase
         
         // get products
         $products = $this->loadProducts();
-        // $productsNumber = count($products);
 
         // pagination
         $this->pageParam = $this->page['pageParam'] = $this->paramName('pageNumber');
         $perPage = $this->property('perPage');
+        // $perPage = 6;
         $page = $this->property('pageNumber');
         $productsPagination = new \Illuminate\Pagination\LengthAwarePaginator($products, count($products), $perPage, $page);
         $productsPagination->setPath(\Request::url()."/N");
         $this->productsPagination = $this->page['productsPagination'] = $productsPagination;
 
-        var_dump(count($products));
+        $this->page->totalProducts = count($products); 
         
         // jkshopsetting
         $this->page['jkshopSetting'] = \Jiri\JKShop\Models\Settings::instance();
@@ -110,8 +113,89 @@ class ProductsByCategory extends ComponentBase
         if (isset($mainCategory)) {
             $this->page->meta_title = $mainCategory->meta_title;
             $this->page->meta_description = $mainCategory->meta_description;
-            $this->page->meta_keywords = $mainCategory->meta_keywords;        
+            $this->page->meta_keywords = $mainCategory->meta_keywords; 
         }
+    }
+
+    function onFilterProject() { $this->prepareVars(); }
+    function prepareVars() {
+        $this->page->testing = "testing2";
+        $slug = $this->property('category');
+        $category = \Jiri\JKShop\Models\Category::where('slug', $slug)->first();
+        if ($category == null) {
+            return \Response::make($this->controller->run('404'), 404);
+        }
+
+        $PerPage = post('PerPage', []);
+        
+        // get products
+        $products = $this->loadProductsId();
+        // $productsNumber = count($products);
+
+        // pagination
+        $this->pageParam = $this->page['pageParam'] = $this->paramName('pageNumber');
+        $perPage = $this->property('perPage');
+        $perPage = $PerPage;
+        // var_dump($perPage);
+        $page = $this->property('pageNumber');
+        $productsPagination = new \Illuminate\Pagination\LengthAwarePaginator($products, count($products), $perPage, $page);
+        $productsPagination->setPath(\Request::url()."/N");
+        $this->productsPagination = $this->page['productsPagination'] = $productsPagination;
+
+        $this->page->totalProducts = count($products); 
+        
+        // jkshopsetting
+        $this->page['jkshopSetting'] = \Jiri\JKShop\Models\Settings::instance();
+        
+        // set category into page
+        $this->page['category'] = $category;
+        
+        // meta info
+        $mainCategory = $category;
+        if (isset($mainCategory)) {
+            $this->page->meta_title = $mainCategory->meta_title;
+            $this->page->meta_description = $mainCategory->meta_description;
+            $this->page->meta_keywords = $mainCategory->meta_keywords; 
+        }
+
+        
+    }
+
+    protected function loadProductsId()
+    {
+        $sort = post('Sorting', []);
+
+        switch ($sort) {
+            case 0:
+                $orderBy = 'id';
+                $sort = 'desc';
+                break;
+            case 1:
+                $orderBy = 'retail_price_with_tax';
+                $sort = 'asc';
+                break;
+            case 2:
+                $orderBy = 'retail_price_with_tax';
+                $sort = 'desc';
+                break;
+        }
+
+        $slug = $this->property('category');
+        //$categories = \Jiri\JKShop\Models\Category::where('slug', $slug)->first()->getAllChildrenAndSelf()->lists("id", "id");
+        $category = \Jiri\JKShop\Models\Category::where('slug', $slug)->first();
+
+        
+        $products = $category->products()
+                             ->where("active", 1)
+                             ->where("visibility", 1)
+                             ->orderBy($orderBy, $sort)
+                             ->get();   
+
+        $products->each(function($product) {
+            $product->setUrl($this->property('productPage'), $this->controller);
+        });    
+
+        return $products;
     }
 
     protected function loadProducts()
@@ -120,6 +204,7 @@ class ProductsByCategory extends ComponentBase
         //$categories = \Jiri\JKShop\Models\Category::where('slug', $slug)->first()->getAllChildrenAndSelf()->lists("id", "id");
         $category = \Jiri\JKShop\Models\Category::where('slug', $slug)->first();
         
+        // $orderBy = $this->property('orderBy');
         
         $products = $category->products()
                              ->where("active", 1)
@@ -144,7 +229,7 @@ class ProductsByCategory extends ComponentBase
          */
         $products->each(function($product) {
             $product->setUrl($this->property('productPage'), $this->controller);
-        });        
+        });    
 
         return $products;
     }    

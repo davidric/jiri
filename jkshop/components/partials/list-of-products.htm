@@ -1,22 +1,37 @@
+<!-- <div class="ui grid">
+  <div class="row title-page"><div class="sixteen wide column"><h3>Galeri</h3></div></div>
+  <div class="ui divider"></div>
+  <div class="row cat-down">
+    <div class="eight wide mobile four wide tablet four wide computer column">
+      
+    </div>
+  </div>
+</div>  --> 
+
 <div class="slider-categories">
   <img src="{{'assets/img/sample/image-slider-01.jpg'|theme}}" srcset="{{'assets/img/sample/image-slider-01@2x.jpg 2x'|theme}}", "{{'assets/img/sample/image-slider-01@3x.jpg 3x'|theme}}" class="image-slider-cat">
 </div>
+
 <div class="cat-rect-1">
   <div class="container">
-    <div class="cr1t1" id="cr1t1">0 Item Found</div>
+    <div class="cr1t1" id="cr1t1">{{this.page.totalProducts}} Items Found</div>
     <div class="cr1t2">
       <div class="cr1t2-1">Sort by</div>
       <div class="cr1t2-2">
-        <div class="ui selection dropdown">
-          <input type="hidden" name="gender">
-          <i class="dropdown icon"></i>
-          <div class="default text">Sort by</div>
-          <div class="menu">
-            <div class="item" data-value="0">Lowest price</div>
-            <div class="item" data-value="1">Highest price</div>
-            <div class="item" data-value="2">Latest product</div>
+        <form data-request="{{ __SELF__}}::onFilterProject" data-request-update="'{{__SELF__}}::list-of-products-id' : '#partialProject'">
+          <div id="ProjectFilter" class="project-filter ui form">
+            <div class="field">
+              <select class="ui fluid dropdown sorting" id="sorting" name="Sorting" name="Filter[perPage]">
+                <option value="0">Latest product</option>
+                <option value="1">Lowest price</option>
+                <option value="2">Highest price</option>
+              </select>
+              <select class="ui fluid dropdown perPage" name="PerPage" style="display: none;">
+                <option value="12">Semua Kategori</option>
+              </select>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
     <div class="clearfix"></div>
@@ -25,90 +40,79 @@
 <div class="best-frames">
   <div class="container">
     <div class="ui grid">
-      <div class="five column row">
-{% for asdf in productsNumber %}
-{{asdf}}
-{% endfor %}
-{{productsNumber}}
-
-
-
-        {% set index = 0 %}
-      {% for key, product in productsPagination.items()|slice(productsPagination.perPage()*(productsPagination.currentPage()-1), productsPagination.perPage()) %}
-      {% set index = index+1 %}
-        <div class="column">
-          <div class="frame-1">
-            {% if product.getMainImage %}
-            <a href="/oct/item/{{product.slug}}">
-              <img src="{{ product.getMainImage.path }}" class="image-1 cursor-pointer">
-            </a>
-            {% endif %}
-            <div class="Rectangle-7">
-              <div class="frame-1-price">{{ product.getFinalPriceFormated }}</div>
-              <div class="frame-1-description cursor-pointer"><a href="/oct/item/{{product.slug}}">{{ product.title }}</a></div>
-              <!-- <div class="frame-1-stars">
-                <div class="frame-1-star">
-                  <i class="fa fa-star"></i>
-                </div>
-                <div class="frame-1-star">
-                  <i class="fa fa-star"></i>
-                </div>
-                <div class="frame-1-star">
-                  <i class="fa fa-star"></i>
-                </div>
-                <div class="frame-1-star">
-                  <i class="fa fa-star"></i>
-                </div>
-                <div class="frame-1-star">
-                  <i class="fa fa-star-o"></i>
-                </div>
-              </div> -->
-            </div>
-          </div>
-        </div>
-      {% else %}
-        <div class="no-data">no products</div>
-      {% endfor %}
-      
+      <div class="five column row" id="partialProject">
+        {% partial __SELF__~'::list-of-products-id'%}      
       </div>
     </div>
   </div>
 </div>
-    
-    
-{% if productsPagination.lastPage > 1 %}
-<div class="pagination-wrapper">
-  <div class="container">
-    <ul class="pagination">
-      {% if productsPagination.currentPage > 1 %}
-      <li><a href="{{ this.page.baseFileName|page({ (pageParam): (productsPagination.currentPage-1) }) }}">&larr; Prev</a></li>
-      {% endif %}
 
-      {% for page in 1..productsPagination.lastPage %}
-      <li class="{{ productsPagination.currentPage == page ? 'active' : null }}">
-        <a href="{{ this.page.baseFileName|page({ (pageParam): page }) }}">{{ page }}</a>
-      </li>
-      {% endfor %}
-
-      {% if productsPagination.lastPage > productsPagination.currentPage %}
-      <li><a href="{{ this.page.baseFileName|page({ (pageParam): (productsPagination.currentPage+1) }) }}">Next &rarr;</a></li>
-      {% endif %}
-    </ul>
-  </div>
+<div class="container">
+  <form data-request="{{ __SELF__}}::onFilterProject"
+      data-request-update="'{{__SELF__}}::list-of-products-id' : '#partialProject'">
+    <div id="ajaxPagination" class="project-filter ui form">
+      <div class="field" style="display:none;">
+        <select class="ui fluid dropdown sorting" name="Sorting" id="sorting-dummy" name="Filter[perPage]">
+          <option value="asc">Semua Kategori</option>
+        </select>
+        <select class="ui fluid dropdown perPage" name="PerPage">
+          <option value="12">Semua Kategori</option>
+        </select>
+      </div>
+      <div class="intro">
+        <div class="title">
+          <div class="Line-1"></div>
+          <!-- <div class="best-title"><h2>You Might Also Like</h2></div> -->
+          <div class="best-title">
+            <button class="btn-01" id="submitProject" type="submit">LOAD MORE</button>         
+          </div>
+          <div class="Line-2"></div>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
-{% endif %}
 
 {% put scripts %}
 <script>
   $('.ui.dropdown').dropdown();
-  $('.cr1t1').innerHTML = "asdf";
+</script>
 
+<script>
   // Amount of item found
   if ({{index}} > 1) {
-    document.getElementById("cr1t1").innerHTML = "{{index}} Items Found";
+    document.getElementById("cr1t1").innerHTML = "{{this.page.totalProducts}} Items Found";
   }
   else {
-    document.getElementById("cr1t1").innerHTML = "{{index}} Item Found";
+    document.getElementById("cr1t1").innerHTML = "{{this.page.totalProducts}} Item Found";
   }
 </script>
+
+<script>
+  $('#sorting-dummy option').attr('value',sorting);
+  (function($){
+    $('#ProjectFilter').on('change', 'select, input', function(){
+      sorting = $('#sorting').find(":selected")[0].value;
+      $('#sorting-dummy option').attr('value',sorting);
+        var $form = $(this).closest('form');
+        $form.request();
+    });
+
+})(jQuery);
+</script>
+
+<script>
+  (function($){
+    valueOption = 12;
+    $('#submitProject').on('click', function(){
+      valueOption = valueOption + 12;
+      console.log(valueOption);
+      $('.perPage option').attr('value',valueOption);
+        var $form = $(this).closest('form');
+        $form.request();
+    });
+    
+})(jQuery);
+</script>
+
 {% endput %}

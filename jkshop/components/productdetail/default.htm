@@ -34,50 +34,29 @@
         <div class="bc-text">
           <div class="bc-text-01">{{ product.title }}</div>
           <div class="bc-text-02">{{ product.getFinalPriceFormated }}</div>
-          <!-- <div class="bc-text-03">
-            <div class="frame-1-stars">
-              <div class="frame-1-star">
-                <i class="fa fa-star"></i>
-              </div>
-              <div class="frame-1-star">
-                <i class="fa fa-star"></i>
-              </div>
-              <div class="frame-1-star">
-                <i class="fa fa-star"></i>
-              </div>
-              <div class="frame-1-star">
-                <i class="fa fa-star"></i>
-              </div>
-              <div class="frame-1-star">
-                <i class="fa fa-star-o"></i>
-              </div>
-            </div>
-            <div class="total-review">23 Reviews</div>
-          </div> -->
           <div class="ui divider"></div>
-            <!-- <div class="title-3">Color</div> -->
-              {% if accessories|length > 0 %}
+          {% if accessories|length > 0 %}
           <div class="bc-text-04">
             <div class="choose-color">
-                <div class="title-3">Colors</div>
-                  {% for accessoriesProduct in accessories %}
-                    {% if accessoriesProduct.images|length > 0 %}
-                      {% if accessoriesProduct.slug == product.slug %}
-                      <div class="item-image-sm color-image">
-                        <img src="{{ accessoriesProduct.images[0].path }}" class="img-responsive cursor-pointer img-gallery-color active" onclick="location.href = '{{ accessoriesProduct.url}}'" >
-                      </div>
-                      {% else %}
-                      <div class="item-image-sm color-image">
-                        <img src="{{ accessoriesProduct.images[0].path }}" class="img-responsive cursor-pointer img-gallery-color" onclick="location.href = '{{ accessoriesProduct.url}}'" >
-                      </div>
-                      {% endif %}
+              <div class="title-3">Colors</div>
+                {% for accessoriesProduct in accessories %}
+                  {% if accessoriesProduct.images|length > 0 %}
+                    {% if accessoriesProduct.slug == product.slug %}
+                    <div class="item-image-sm color-image">
+                      <img src="{{ accessoriesProduct.images[0].path }}" class="img-responsive cursor-pointer img-gallery-color active" onclick="location.href = '{{ accessoriesProduct.url}}'" >
+                    </div>
+                    {% else %}
+                    <div class="item-image-sm color-image">
+                      <img src="{{ accessoriesProduct.images[0].path }}" class="img-responsive cursor-pointer img-gallery-color" onclick="location.href = '{{ accessoriesProduct.url}}'" >
+                    </div>
                     {% endif %}
-                  {% endfor %}
-                  <div class="clearfix"></div>  
+                  {% endif %}
+                {% endfor %}
+                <div class="clearfix"></div>  
             </div>
           </div>
           <div class="ui divider"></div>
-              {% endif  %}
+          {% endif  %}
           <div class="bc-text-05">
             <div class="title-3">Size in stocks</div>
             <div class="choose-size">
@@ -198,7 +177,7 @@
   </div>
   <div class="ui divider"></div>
   <div class="item-row-3">
-    <i class="icon fa-angle-left"></i>
+    <!-- <i class="icon fa-angle-left"></i> -->
     <div class="container">
       <div class="intro">
         <div class="title">
@@ -210,149 +189,32 @@
       <div class="Shop-our-latest-tren">
         Don’t miss this great style don’t miss this great style don’t miss this great style
       </div>
+
       <div class="best-frames">
-        <div class="ui grid">
-          <div class="five column row">
+        <section class="related-products slider">
+        {% set index = 0 %}
+          {% for key, product in productsPagination.items()|slice(productsPagination.perPage()*(productsPagination.currentPage()-1), productsPagination.perPage()) %}
+          {% set index = index+1 %}
             <div class="column">
               <div class="frame-1">
-                <img src="{{'assets/img/sample/image-1.jpg'|theme}}" srcset="{{'assets/img/sample/image-1@2x.jpg 2x'|theme}}", "{{'assets/img/sample/image-1@3x.jpg 3x'|theme}}" class="image-1">
-                <!-- <img src="{{'assets/img/icon/heart-o-font-awesome.png'|theme}}" srcset="{{'assets/img/icon/heart-o-font-awesome@2x.png 2x'|theme}}", "{{'assets/img/icon/heart-o-font-awesome@3x.png 3x'|theme}}" class="heart-o---FontAwesome"> -->
+                {% if product.getMainImage %}
+                <a href="/oct/item/{{product.slug}}">
+                  <img src="{{ product.getMainImage.path }}" class="image-1 cursor-pointer">
+                </a>
+                {% endif %}
                 <div class="Rectangle-7">
-                  <div class="frame-1-price">Rp325.000</div>
-                  <div class="frame-1-description">Rosaline Defyant Reversible Dot Shorts</div>
-                  <!-- <div class="frame-1-stars">
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star-o"></i>
-                    </div>
-                  </div> -->
+                  <div class="frame-1-price">{{ product.getFinalPriceFormated }}</div>
+                  <div class="frame-1-description cursor-pointer"><a href="/oct/item/{{product.slug}}">{{ product.title }}</a></div>
                 </div>
               </div>
             </div>
-            <div class="column">
-              <div class="frame-1">
-                <img src="{{'assets/img/sample/image-2.jpg'|theme}}" srcset="{{'assets/img/sample/image-2@2x.jpg 2x'|theme}}", "{{'assets/img/sample/image-2@3x.jpg 3x'|theme}}" class="image-1">
-                <!-- <img src="{{'assets/img/icon/heart-o-font-awesome.png'|theme}}" srcset="{{'assets/img/icon/heart-o-font-awesome@2x.png 2x'|theme}}", "{{'assets/img/icon/heart-o-font-awesome@3x.png 3x'|theme}}" class="heart-o---FontAwesome"> -->
-                <div class="Rectangle-7">
-                  <div class="frame-1-price">Rp325.000</div>
-                  <div class="frame-1-description">Rosaline Padded Wirefree Full Coverage Crossover</div>
-                  <!-- <div class="frame-1-stars">
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star-o"></i>
-                    </div>
-                  </div> -->
-                </div>
-              </div>
-            </div>
-            <div class="column">
-              <div class="frame-1">
-                <img src="{{'assets/img/sample/image-3.jpg'|theme}}" srcset="{{'assets/img/sample/image-3@2x.jpg 2x'|theme}}", "{{'assets/img/sample/image-3@3x.jpg 3x'|theme}}" class="image-1">
-                <!-- <img src="{{'assets/img/icon/heart-o-font-awesome.png'|theme}}" srcset="{{'assets/img/icon/heart-o-font-awesome@2x.png 2x'|theme}}", "{{'assets/img/icon/heart-o-font-awesome@3x.png 3x'|theme}}" class="heart-o---FontAwesome"> -->
-                <div class="Rectangle-7">
-                  <div class="frame-1-price">Rp325.000</div>
-                  <div class="frame-1-description">Behaku Cotton Wirefree Cut N Sew Bra- Purple</div>
-                  <!-- <div class="frame-1-stars">
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star-o"></i>
-                    </div>
-                  </div> -->
-                </div>
-              </div>
-            </div>
-            <div class="column">
-              <div class="frame-1">
-                <img src="{{'assets/img/sample/image-4.jpg'|theme}}" srcset="{{'assets/img/sample/image-4@2x.jpg 2x'|theme}}", "{{'assets/img/sample/image-4@3x.jpg 3x'|theme}}" class="image-1">
-                <!-- <img src="{{'assets/img/icon/heart-o-font-awesome.png'|theme}}" srcset="{{'assets/img/icon/heart-o-font-awesome@2x.png 2x'|theme}}", "{{'assets/img/icon/heart-o-font-awesome@3x.png 3x'|theme}}" class="heart-o---FontAwesome"> -->
-                <div class="Rectangle-7">
-                  <div class="frame-1-price">Rp380.000</div>
-                  <div class="frame-1-description">Behaku Cotton Wirefree Cut N Sew Bra- Purple</div>
-                  <!-- <div class="frame-1-stars">
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star-o"></i>
-                    </div>
-                  </div> -->
-                </div>
-              </div>
-            </div>
-            <div class="column">
-              <div class="frame-1">
-                <img src="{{'assets/img/sample/image-2.jpg'|theme}}" srcset="{{'assets/img/sample/image-2@2x.jpg 2x'|theme}}", "{{'assets/img/sample/image-2@3x.jpg 3x'|theme}}" class="image-1">
-                <!-- <img src="{{'assets/img/icon/heart-o-font-awesome.png'|theme}}" srcset="{{'assets/img/icon/heart-o-font-awesome@2x.png 2x'|theme}}", "{{'assets/img/icon/heart-o-font-awesome@3x.png 3x'|theme}}" class="heart-o---FontAwesome"> -->
-                <div class="Rectangle-7">
-                  <div class="frame-1-price">Rp280.000</div>
-                  <div class="frame-1-description">Rosaline Defyant Reversible Dot Shorts</div>
-                  <!-- <div class="frame-1-stars">
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="frame-1-star">
-                      <i class="fa fa-star-o"></i>
-                    </div>
-                  </div> -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          {% else %}
+            <div class="no-data">no products</div>
+          {% endfor %}
+        </section>
       </div>  
     </div>
-    <i class="icon fa-angle-right"></i>
+    <!-- <i class="icon fa-angle-right"></i> -->
   </div>
 </div>
 {% put scripts %}
@@ -404,6 +266,12 @@
       infinite: false,
       slidesToShow: 5,
       slidesToScroll: 3
+    });
+    $(".related-products").slick({
+      dots: true,
+      infinite: true,
+      centerMode: false,
+      slidesToShow: 5,
     });
   });
 </script>
