@@ -115,12 +115,12 @@ tabs:
             span: full 
             type: number
             
-        # on_sale:
-        #     tab: jiri.jkshop::lang.products.prices
-        #     label: jiri.jkshop::lang.products.on_sale
-        #     type: switch
-        #     span: auto
-        #     default: false
+        on_sale:
+            tab: jiri.jkshop::lang.products.prices
+            label: Display this item on the homepage
+            type: switch
+            span: auto
+            default: false
             
         # individual_prices:
         #     tab: jiri.jkshop::lang.products.prices

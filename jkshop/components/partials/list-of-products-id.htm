@@ -4,13 +4,13 @@
   <div class="column">
     <div class="frame-1">
       {% if product.getMainImage %}
-      <a href="/oct/item/{{product.slug}}">
+      <a href="/oct/{{category.slug}}/{{product.slug}}">
         <img src="{{ product.getMainImage.path }}" class="image-1 cursor-pointer">
       </a>
       {% endif %}
       <div class="Rectangle-7">
         <div class="frame-1-price">{{ product.getFinalPriceFormated }}</div>
-        <div class="frame-1-description cursor-pointer"><a href="/oct/item/{{product.slug}}">{{ product.title }}</a></div>
+        <div class="frame-1-description cursor-pointer"><a href="/oct/{{category.slug}}/{{product.slug}}">{{ product.title }}</a></div>
       </div>
     </div>
   </div>

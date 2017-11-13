@@ -1,0 +1,6 @@
+plugin:
+    name: 'arquitectura.subscribe::lang.plugin.name'
+    description: 'arquitectura.subscribe::lang.plugin.description'
+    author: arquitectura
+    icon: oc-icon-adjust
+    homepage: ''

@@ -1,0 +1,6 @@
+plugin:
+    name: 'arquitectura.contact::lang.plugin.name'
+    description: 'arquitectura.contact::lang.plugin.description'
+    author: arquitectura
+    icon: oc-icon-adjust
+    homepage: ''
