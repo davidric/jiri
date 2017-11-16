@@ -1,15 +1,6 @@
-<!-- <div class="ui grid">
-  <div class="row title-page"><div class="sixteen wide column"><h3>Galeri</h3></div></div>
-  <div class="ui divider"></div>
-  <div class="row cat-down">
-    <div class="eight wide mobile four wide tablet four wide computer column">
-      
-    </div>
-  </div>
-</div>  --> 
-
+<div class="title-page">{{category.title}} Collection</div>
 <div class="slider-categories">
-  <img src="{{'assets/img/sample/image-slider-01.jpg'|theme}}" srcset="{{'assets/img/sample/image-slider-01@2x.jpg 2x'|theme}}", "{{'assets/img/sample/image-slider-01@3x.jpg 3x'|theme}}" class="image-slider-cat">
+  <img src="{{'assets/img/sample/image-slider-01.jpg'|theme}}" class="image-slider-cat">
 </div>
 
 <div class="cat-rect-1">
@@ -113,6 +104,17 @@
     });
     
 })(jQuery);
+</script>
+
+<script>
+  if ($(window).width() < 992) {
+    $("#partialProject").removeClass('five column row');
+    $("#partialProject").addClass('three column row');
+  }
+  if ($(window).width() < 767) {
+    $("#partialProject").removeClass('three column row');
+    $("#partialProject").addClass('two column row');
+  }
 </script>
 
 {% endput %}

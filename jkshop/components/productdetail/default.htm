@@ -1,16 +1,16 @@
 {% if not product %}
-    <div class="row">
-        <div class="col-sm-12">
-            Product not found
-        </div>
-    </div>
+<div class="row">
+  <div class="col-sm-12">
+    Product not found
+  </div>
+</div>
 
 {% else %}
 <div class="item-page">
   <div class="item-container item-row-1">
     <div class="ui grid">
-      <div class="two wide column">
-        <section class="vertical slider">
+      <div class="img-sm-col two wide tablet two wide computer column">
+        <section class="vertical-slick slider">
         {% for image in product.images %}
         <div class="item-image-sm">
           <img class="img-gallery" src="{{image.path}}" rel="galery1">
@@ -22,14 +22,14 @@
         {% endfor %}
         </section>
       </div>
-      <div class="item-image seven wide column">
+      <div class="item-image thirteen wide mobile six wide tablet seven wide computer column">
         {% if product.getMainImage %}
           <div class="item-image-main" id="product-detail-main-image">
             <img id="main-image" src="{{ product.getMainImagePath }}" class="img-responsive cursor-pointer" >
           </div>
         {% endif %}
       </div>
-      <div class="buy-config seven wide column">
+      <div class="buy-config sixteen wide mobile seven wide tablet seven wide computer column">
         <div class="bc-text">
           <div class="bc-text-01">{{ product.title }}</div>
           <div class="bc-text-02">{{ product.getFinalPriceFormated }}</div>
@@ -86,6 +86,10 @@
                   </button>
                 </div>
               </div>    
+              <div class="bct06-md">
+                <div class="bct06-1"><i class="icon fa-rotate-left"></i> <p>15 days easy returns</p></div>
+                <div class="bct06-2"><i class="icon fa-truck"></i> <p>Check delivery time for your location</p></div>
+              </div>
               <!-- <div class="btn-01"><i class="icon fa-shopping-cart"></i> ADD TO CART</div> -->
               <button class="btn-01" type="submit"><i class="icon fa-shopping-cart"></i> ADD TO CART</button>
                 </form>
@@ -110,8 +114,10 @@
                 {% endfor %}
               <div class="clearfix"></div>    
             {% endif  %}
-            <div class="bct06-1"><i class="icon fa-rotate-left"></i> <p>15 days easy returns</p></div>
-            <div class="bct06-2"><i class="icon fa-truck"></i> <p>Check delivery time for your location</p></div>
+            <div class="bct06-lg">
+              <div class="bct06-1"><i class="icon fa-rotate-left"></i> <p>15 days easy returns</p></div>
+              <div class="bct06-2"><i class="icon fa-truck"></i> <p>Check delivery time for your location</p></div>
+            </div>
           </div>
         </div>
       </div>
@@ -197,13 +203,13 @@
             <div class="column">
               <div class="frame-1">
                 {% if product.getMainImage %}
-                <a href="/oct/{{category.slug}}/{{product.slug}}">
+                <a href="/{{category.slug}}/{{product.slug}}">
                   <img src="{{ product.getMainImage.path }}" class="image-1 cursor-pointer">
                 </a>
                 {% endif %}
                 <div class="Rectangle-7">
                   <div class="frame-1-price">{{ product.getFinalPriceFormated }}</div>
-                  <div class="frame-1-description cursor-pointer"><a href="/oct/{{category.slug}}/{{product.slug}}">{{ product.title }}</a></div>
+                  <div class="frame-1-description cursor-pointer"><a href="/{{category.slug}}/{{product.slug}}">{{ product.title }}</a></div>
                 </div>
               </div>
             </div>
@@ -258,14 +264,26 @@
 
 <script type="text/javascript">
   $(document).on('ready', function() {
-    $(".vertical").slick({
+  if ($(window).width() < 992) {
+    $(".vertical-slick").slick({
+      dots: true,
+      vertical: true,
+      verticalSwiping: true,
+      infinite: false,
+      slidesToShow: 4,
+      slidesToScroll: 3
+    });
+  }
+  else {
+    $(".vertical-slick").slick({
       dots: true,
       vertical: true,
       verticalSwiping: true,
       infinite: false,
       slidesToShow: 5,
       slidesToScroll: 3
-    });
+    });   
+  }
     $(".related-products").slick({
       dots: true,
       infinite: true,

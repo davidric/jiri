@@ -1,16 +1,16 @@
 {% set index = 0 %}
 {% for key, product in productsPagination.items()|slice(productsPagination.perPage()*(productsPagination.currentPage()-1), productsPagination.perPage()) %}
 {% set index = index+1 %}
-  <div class="column">
+  <div class="{% if key % 2 == 0 %}column-left{% else %}column-right{% endif %} column">
     <div class="frame-1">
       {% if product.getMainImage %}
-      <a href="/oct/{{category.slug}}/{{product.slug}}">
+      <a href="/{{category.slug}}/{{product.slug}}">
         <img src="{{ product.getMainImage.path }}" class="image-1 cursor-pointer">
       </a>
       {% endif %}
       <div class="Rectangle-7">
         <div class="frame-1-price">{{ product.getFinalPriceFormated }}</div>
-        <div class="frame-1-description cursor-pointer"><a href="/oct/{{category.slug}}/{{product.slug}}">{{ product.title }}</a></div>
+        <div class="frame-1-description cursor-pointer"><a href="/{{category.slug}}/{{product.slug}}">{{ product.title }}</a></div>
       </div>
     </div>
   </div>
