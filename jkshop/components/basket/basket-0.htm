@@ -1,125 +1,300 @@
-<div class="basket-content-wrapper" id="basket-content-wrapper">
-    <div class="basket-breadcrumbs">
-        <strong>1 Cart</strong><span class="glyphicon glyphicon-chevron-right"></span>
-        <span>2 Shipping & Payment</span><span class="glyphicon glyphicon-chevron-right"></span>
-        <span>3 Address </span><span class="glyphicon glyphicon-chevron-right"></span>
-        <span>4 Summary</span>
-    </div>
-    
-    {% if (basket.products|length == 0) %}
-        <div>
-            Cart is empty
+<div class="basket-page">
+  <div class="container">
+    <div class="ui grid">
+      <div class="eleven wide column">
+        <div class="span12">
+          <div class="cart-step">
+            <span class="step-sign sign1 active"><span class="step-text">Purchased Details</span></span>
+            <span class="step-sign sign2 "><span class="step-text ta-center">Payment Method</span></span>
+            <span class="step-sign sign3 "><span class="step-text">Payment Order</span></span>
+            <div class=""></div>
+            <div class="step-bar"></div>
+          </div>
         </div>
-    {% else %}
-    <div class="basket-product-row-wrapper">
-        {% for key, productJson in basket.products  %}
-        <div class="row basket-product-row">
-            <div class="col-sm-7 basket-product-row-info">
-                <div class="row">
-                    <div class="col-sm-2">
-                        {% if productJson.product.images|length > 0 %}
-                        <img src="{{ productJson.product.images[0].thumb(55,55) }}" class="cursor-pointer img-responsive" onclick="location.href = '{{ productJson.product.url}}'" >
-                        {% endif %}
-                    </div>
-                    <div class="col-sm-10">
-                        <a class="cursor-pointer" onclick="location.href = '{{ productJson.product.url}}'">{{ productJson.product.title }}</a>
-                        <div>{{productJson.options_text}}</div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                
-            </div>
-            <div class="col-sm-2 basket-product-row-qty">
-                <strong>{{ productJson.basket_quantity }} &nbsp;</strong>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" data-request-data="key: '{{key}}', id: {{ productJson.product.id }}, qty_operation: -1" data-request="onBasketProductChangeQunatity"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
-                    <button type="button" class="btn btn-default" data-request-data="key: '{{key}}', id: {{ productJson.product.id }}, qty_operation: 1" data-request="onBasketProductChangeQunatity"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-                </div>
-            </div>
-            <div class="col-sm-3 basket-product-row-price">
-                {{ jkshopSetting.getPriceFormatted(productJson.price+productJson.current_discount) }}/ pc 
-                &nbsp;&nbsp; 
-                {% if productJson.current_discount > 0 %}
-                    (-{{ jkshopSetting.getPriceFormatted(productJson.current_discount) }}/ pc)
-                    &nbsp;&nbsp; 
-                {% endif %}
-                <strong>{{ jkshopSetting.getPriceFormatted(productJson.total_price)  }}</strong>
-                &nbsp;&nbsp;
-                <button type="button" class="btn btn-danger" data-request-data="key: '{{key}}', id: {{ productJson.product.id }}, qty_operation: -999999" data-request="onBasketProductChangeQunatity"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-            </div>
+        <div class="clearfix"></div>         
+      </div>
+      <div class="five wide column">
+        <div class="basket-checkout-time">
+          <i class="fa fa-exclamation-circle"></i>
+          <!-- <div class="checkout-time-txt-1">Checkout within <span class="checkout-time-left">16 Hours 48 Mins</span> for delivery by <span class="checkout-time-left">25 Nov</span></div> -->
+          <div class="checkout-time-txt-1">In order to complete your purchase, please click on the checkout button <a class="checkout-time-left" href="#choose-payment-btn">below</a>.</div>
         </div>
-        {% endfor  %}
+      </div>
     </div>
-    <div class="basket-products-total">
-        <div class="row">
-            <div class="col-md-6 text-left">
-                <form class="form-horizontal" data-request="onAddCouponCode">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <input class="form-control" placeholder="Coupon Code" name="coupon_code" required="" value="{{ basket.coupon_code }}">
+    <div class="ui grid">
+      <div class="eleven wide column">
+        <div class="basket-content-wrapper" id="basket-content-wrapper">
+          {% if (basket.products|length == 0) %}
+          <div>Cart is empty!</div>
+          {% else %}
+          <div class="basket-product-row-wrapper">
+            {% for key, productJson in basket.products  %}
+            <div class="item-wrapper row basket-product-row">
+              <div class="ui grid">
+                <div class="five wide column">
+                  {% if productJson.product.images|length > 0 %}
+                  <img src="{{ productJson.product.images[0].path }}" class="cursor-pointer img-responsive" onclick="location.href = '{{ productJson.product.url}}'" >
+                  {% endif %}
+                </div>
+                <div class="eleven wide column">
+                  <a class="title-item-modal cursor-pointer" onclick="location.href = '{{ productJson.product.url}}'">{{ productJson.product.title }}</a>
+                  <div class="ui divider"></div>
+                  <div class="ui grid"> 
+                    <div class="seven wide column">  
+                      <div class="sub-title-modal">Unit Price</div>
+                      <div>{{ jkshopSetting.getPriceFormatted(productJson.price+productJson.current_discount) }}</div> 
+                      
+                    </div>
+                    <div class="seven wide column"> 
+                      <div class="sub-title-modal">Size in stocks</div>
+                      <div>{{productJson.options_text}}</div>
+                    </div>
+                  </div>
+                  <div class="ui divider"></div>
+                  <div class="ui grid">
+                    <div class="seven wide column">
+                      <div class="sub-title-modal">Quantity</div>
+                      <div class="increment-btn">     
+                        <div class="ui disabled left action input">
+                          <button type="button" class="ui icon button quantity-left-minus" data-type="minus" data-field="" data-request-data="key: '{{key}}', id: {{ productJson.product.id }}, qty_operation: -1" data-request="onBasketProductChangeQunatity">
+                            <i class="minus icon"></i>
+                          </button>
+                          <input type="text" id="quantity" name="default_quantity_operation" class="form-control input-number" value="{{ productJson.basket_quantity }}" min="{{ product.minimum_quantity }}" max="100">
+                          <button type="button" class="ui icon button quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="" data-request-data="key: '{{key}}', id: {{ productJson.product.id }}, qty_operation: 1" data-request="onBasketProductChangeQunatity">
+                            <i class="add icon"></i>
+                          </button>
                         </div>
-                        <button type="submit" class="btn btn-primary">Apply Coupon Code</button>
+                      </div>            
+                    </div>
+                    <div class="seven wide column">
+                      <div class="sub-title-modal">Total</div>
+                      {% if productJson.current_discount > 0 %}
+                          (-{{ jkshopSetting.getPriceFormatted(productJson.current_discount) }}/ pc)
+                      {% endif %}
+                      <div class="total-price-modal">{{ jkshopSetting.getPriceFormatted(productJson.total_price)  }}</div>
+                    </div>
+                  </div>
+                  <!-- <button type="button" class="btn btn-danger" data-request-data="key: '{{key}}', id: {{ productJson.product.id }}, qty_operation: -999999" data-request="onBasketProductChangeQunatity"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button> -->
+                </div>
+              </div>
+            </div>
+            {% endfor  %}
+          </div>
+          <!-- <div class="basket-products-total">
+            <div class="ui grid">
+              <div class="left-tmw eight wide column">
+                <div class="total-modal-wrapper">
+                  <form class="form-horizontal" data-request="onAddCouponCode">
+                    <div class="row">
+                      <input class="form-control coupon-form" name="coupon_code" required="" value="{{ basket.coupon_code }}">
+                      <button type="submit" class="coupon-submit">Voucher Code</button>
                     </div>
                     {% if basket.coupon_wrong_code > 0 %}
                     <div class="row">
-                        <div class="col-sm-12">
-                            {% if basket.coupon_wrong_code == 1 %}
-                                This coupon is non active
-                            {% endif %}
-                            {% if basket.coupon_wrong_code == 2 %}
-                                Date of valid is different
-                            {% endif %}
-                            {% if basket.coupon_wrong_code == 3 %}
-                                This coupon have too many usage
-                            {% endif %}
-                            {% if basket.coupon_wrong_code == 4 %}
-                                You can't use this coupon
-                            {% endif %}
-                            {% if basket.coupon_wrong_code == 5 %}
-                                Your basket total price is too low
-                            {% endif %}
-                        </div>
+                      <div class="col-sm-12">
+                        {% if basket.coupon_wrong_code == 1 %}
+                          This coupon is non active
+                        {% endif %}
+                        {% if basket.coupon_wrong_code == 2 %}
+                          Date of valid is different
+                        {% endif %}
+                        {% if basket.coupon_wrong_code == 3 %}
+                          This coupon have too many usage
+                        {% endif %}
+                        {% if basket.coupon_wrong_code == 4 %}
+                          You can't use this coupon
+                        {% endif %}
+                        {% if basket.coupon_wrong_code == 5 %}
+                          Your basket total price is too low
+                        {% endif %}
+                      </div>
                     </div>
                     {% endif %}
                     {% if basket.coupon_model %}
                     <div class="row">
-                        <div class="col-sm-12">
-                            <small>
-                            ( Discount {{ basket.coupon_model.getValueLabel }} {{ basket.coupon_model.isGlobal ? "from total price" : "for each suitable item from basket" }} )
-                            </small>
-                        </div>
+                      <div class="col-sm-12">
+                        <small>
+                        ( Discount {{ basket.coupon_model.getValueLabel }} {{ basket.coupon_model.isGlobal ? "from total price" : "for each suitable item from basket" }} )
+                        </small>
+                      </div>
                     </div>
                     {% endif %}
-                </form>
-            </div>
-            <div class="col-md-6">
-                {% if basket.total_global_discount > 0 %}
-                    <div class="row">
-                        <div class="col-sm-4 col-sm-offset-6">Discount</div>
-                        <div class="col-sm-2">-{{ jkshopSetting.getPriceFormatted(basket.total_global_discount) }}</div>
+                  </form>
+                  <div class="sub-title-modal">Checkout on App</div>
+                  <div class="tmw-text-01">
+                    Get extra 7% Off for gold circle or extra 4% Off for Silver Circle Member Only on Behaku Brands
+                  </div>
+                  <div class="ft-1-2">
+                    <img src="http://localhost/oct/themes/behaku/assets/img/icon/app-store.png" srcset="http://localhost/oct/themes/behaku/assets/img/icon/app-store@2x.png 2x" ,="" "http:="" localhost="" oct="" themes="" behaku="" assets="" img="" icon="" app-store@3x.png="" 3x"="" class="icon-footer-01">
+                    <img src="http://localhost/oct/themes/behaku/assets/img/icon/play-store.png" srcset="http://localhost/oct/themes/behaku/assets/img/icon/play-store@2x.png 2x" ,="" "http:="" localhost="" oct="" themes="" behaku="" assets="" img="" icon="" play-store@3x.png="" 3x"="" class="icon-footer-01">
+                  </div>
+                </div>
+              </div>
+              <div class="eight wide column">            
+              </div>
+            </div>     
+          </div> -->
+          <!-- <div class="basket-products-buttons">
+            <button class="btn btn-primary" data-request="onRunBasketShippingPayment">Continue <span class="glyphicon glyphicon-chevron-right"></span></button>
+          </div> -->
+          {% endif %}
+        </div>      
+        <!-- BasketAddress -->
+        <div class="basket-content-wrapper" id="basket-content-wrapper">         
+          {{ form_ajax('onRunBasketSummary') }}
+            {% if (basket.products|length == 0) %}
+              <!-- <div>Cart is empty</div> -->
+            {% else %}
+            <div class="title-5">Shipping Address</div>
+            <!-- Start form profile -->
+            <div class="profile-page" id="delivery_address_group">
+              <div class="basic-field">
+                <div class="field">
+                  <label>Name</label>
+                  <div class="two fields">
+                    <div class="field">
+                      <input type="text" placeholder="First Name" required="true" name="ds_first_name" value="{{ basket.ds_first_name }}">
                     </div>
-                {% endif %}
-                
-                <div class="row">
-                    <div class="col-sm-4 col-sm-offset-6">Total excl. VAT</div>
-                    <div class="col-sm-2">{{ basket.total_price_without_tax_formatted }}</div>
+                    <div class="field">
+                      <input type="text" required="true" name="ds_last_name" value="{{ basket.ds_last_name }}" placeholder="Last name">
+                    </div>
+                  </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-4 col-sm-offset-6">VAT</div>
-                    <div class="col-sm-2">{{ basket.total_tax_formatted }}</div>
+                <div class="field">
+                  <div class="fields">
+                    <div class="twelve wide field">
+                      <label>Billing Address</label>
+                      <input type="text" placeholder="Street Address" required="true" name="ds_address" value="{{ basket.ds_address }}">
+                    </div>
+                    <div class="four wide field">
+                      <label>Postal Code</label>
+                      <input type="text" placeholder="Postal Code" required="true" name="ds_postcode" value="{{ basket.ds_postcode }}" >
+                    </div>
+                  </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-4 col-sm-offset-6">Total incl. VAT</div>
-                    <div class="col-sm-2">{{ basket.total_price_formatted }}</div>
+                <div class="three fields">
+                  <div class="field">
+                    <label>City</label>
+                    <input type="text" placeholder="City" required="true" name="ds_city" value="{{ basket.ds_city }}">
+                  </div>
+                  <div class="field">
+                    <label>Province</label>
+                    <input type="text" placeholder="Province" name="ds_county" value="{{ basket.ds_county }}" placeholder="County">
+                  </div>
+                  <div class="field">
+                    <label>Country</label>
+                    <input type="text" placeholder="Country" name="ds_country" value="{{ basket.ds_country }}" placeholder="Country">
+                  </div>
                 </div>
+                <div class="field">
+                  <div class="fields">
+                    <div class="eight wide field">
+                      <label>Email</label>
+                      <input type="email" required="true" name="contact_email" value="{{ basket.contact_email }}" placeholder="Email">
+                    </div>
+                    <div class="eight wide field">
+                      <label>Phone</label>
+                      <input type="text" required="true" name="contact_phone" value="{{ basket.contact_phone }}" placeholder="Phone">
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <textarea class="" name="note" rows="3" placeholder="Note">{{ basket.note }}</textarea>
+                </div>   
+              </div>
+            </div> 
+            <div class="title-5">Choose Couriers</div>
+            <div class="shipping-options">
+              <div class="shipping-jkshop" style="display: none;">
+                <select name="shipping_id">
+                  {% for shipping in basket.shipping_options  %}
+                  <option value="{{ shipping.id }}">
+                    {{ shipping.title }} - {{ jkshopSetting.getPriceFormatted(shipping.getCurrentPriceWithTax(basket)) }}
+                  </option>
+                  {% endfor %}
+                </select>
+                {{ form_select("payment_method_id", basket.payment_method_options, basket.payment_method_id) }}             
+              </div>
+              <div class="shipping-box active"><img src="{{'assets/img/icon/jne.png'|theme}}" alt=""></div>
+              <div class="shipping-box"><img src="{{'assets/img/icon/pos-indonesia.png'|theme}}" alt=""></div>
+              <div class="shipping-box"><img src="{{'assets/img/icon/ninja-xpress.png'|theme}}" alt=""></div>
             </div>
             <div class="clearfix"></div>
+            <button id="choose-payment-btn" type="submit" class="btn-01">CHOOSE PAYMENT</button>
+            {% endif %}
+          </form>    
+        </div>       
+      </div>
+      <div class="five wide column">
+        <div class="total-modal-wrapper">
+          <div class="tmw-row">
+            <div class="left-mod-col">
+              <div class="sub-title-modal">Sub-total</div>
+            </div>
+            <div class="right-mod-col">
+              <div class="sub-title-modal-value">{{ basket.total_price_formatted }}</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="ui divider"></div>
+          <div class="tmw-row">
+            <div class="left-mod-col">
+              <div class="sub-title-modal">Shipping</div>
+            </div>
+            <div class="right-mod-col">
+              <div class="sub-title-modal-value">{{ jkshopSetting.getPriceFormatted(basket.shipping.getCurrentPriceWithTax(basket)) }}</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="ui divider"></div>
+          <div class="tmw-row">
+            <div class="left-mod-col">
+              <div class="sub-title-modal">Discount</div>
+            </div>
+            <div class="right-mod-col">
+              <div class="sub-title-modal-value">{{ jkshopSetting.getPriceFormatted(basket.total_global_discount) }}</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="ui divider"></div>
+          <div class="tmw-row">
+            <div class="left-mod-col">
+              <div class="sub-title-modal">ORDER TOTAL</div>
+            </div>
+            <div class="right-mod-col">
+              <div class="sub-title-modal-value"><strong>{{ basket.total_price_formatted }}</strong></div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
         </div>
-        
+      </div>
     </div>
-    <div class="basket-products-buttons">
-        <button class="btn btn-primary" data-request="onRunBasketShippingPayment">Continue <span class="glyphicon glyphicon-chevron-right"></span></button>
-    </div>
-
-    {% endif %}
+  </div>
 </div>
+
+{% put scripts %}
+<script>
+  $("#copy_address").change(function () {
+    if ($(this).is(':checked')) {
+      $("#billing_address_group input[type=text]").prop('readonly', true);
+      
+      $("#billing_address_group input[type=text]").each( function( key, element ) {
+        val = $("#delivery_address_group input[type=text]:eq( "+key+" )").val();
+        $(element).val(val);
+      });
+    }
+    else {
+      $("#billing_address_group input[type=text]").prop('readonly', false);
+      $("#billing_address_group input[type=text]").each( function( key, element ) {
+        $(element).val("");
+      });
+    }
+  });
+</script> 
+<script>
+  $('.basket-content-wrapper form').addClass('ui form');
+  // $('.increment-btn button').click(function(){
+  //   $('.basket-content-wrapper form').addClass('ui form');
+  // })
+</script>
+{% endput %} 

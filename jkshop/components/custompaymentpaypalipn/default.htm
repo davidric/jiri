@@ -1,6 +1,6 @@
 <div class="basket-content-wrapper" id="basket-content-wrapper">
     <div class="alert alert-success" role="alert"> <strong>Order sent!</strong> Please continue to pay order bellow </div>
-    
+    Test: {{ order.id }} dan {{ order.total_price + order.shipping_price }}
     <div class="paypal-btn-wrapper">
     <!--PAY BY PAYPAL NOW -->
     <FORM action="{{ paypal_use_sandbox ? "https://www.sandbox.paypal.com/cgi-bin/webscr" : "https://www.paypal.com/cgi-bin/webscr" }}" method="post" id="form-paypal">

@@ -1,0 +1,99 @@
+<div class="basket-page basket-1">
+  <div class="container">
+    <div class="ui grid">
+      <div class="eleven wide column">
+        <div class="span12">
+          <div class="cart-step">
+            <span class="step-sign sign1 "><span class="step-text">Purchased Details</span></span>
+            <span class="step-sign sign2 active"><span class="step-text ta-center">Payment Method</span></span>
+            <span class="step-sign sign3 "><span class="step-text">Payment Order</span></span>
+            <div class=""></div>
+            <div class="step-bar"></div>
+          </div>
+        </div>
+        <div class="clearfix"></div>         
+      </div>
+      <div class="five wide column">
+        <div class="basket-checkout-time">
+          <i class="fa fa-exclamation-circle"></i>
+          <div class="checkout-time-txt-1">In order to complete your purchase, please click on the checkout button <a class="checkout-time-left" href="#buy-product-btn">below</a>.</div>
+        </div>
+      </div>
+    </div>
+    <div class="ui grid">
+      <div class="eleven wide column">
+        <div class="title-5">Choose Payment Method</div>
+        <div class="ui radio checkbox pay-method">
+          <input type="radio" name="bank-transfer" checked="" tabindex="0" class="hidden">
+          <label>Bank Transfer</label>
+        </div>
+        <div class="shipping-options">
+          <div class="shipping-box"><img src="{{'assets/img/icon/bni.png'|theme}}" alt=""></div>
+          <div class="shipping-box active"><img src="{{'assets/img/icon/bca.png'|theme}}" alt=""></div>
+          <div class="shipping-box"><img src="{{'assets/img/icon/mandiri.png'|theme}}" alt=""></div>
+          <div class="shipping-box"><img src="{{'assets/img/icon/bri.png'|theme}}" alt=""></div>
+          <div class="shipping-box"><img src="{{'assets/img/icon/citi.png'|theme}}" alt=""></div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="pm-text">
+          <div class="pm-text-1">Note</div>
+          <div class="pm-text-1">We only accedivt payment via bank transfer at the moment, for more information please contact our <span class="links">customer service</span></div>
+        </div>
+      </div>
+      <div class="five wide column">
+        <div class="total-modal-wrapper">
+          <div class="tmw-row">
+            <div class="left-mod-col">
+              <div class="sub-title-modal">Sub-total</div>
+            </div>
+            <div class="right-mod-col">
+              <div class="sub-title-modal-value">{{ basket.total_price_formatted }}</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="ui divider"></div>
+          <div class="tmw-row">
+            <div class="left-mod-col">
+              <div class="sub-title-modal">Shipping</div>
+            </div>
+            <div class="right-mod-col">
+              <div class="sub-title-modal-value">{{ jkshopSetting.getPriceFormatted(basket.shipping.getCurrentPriceWithTax(basket)) }}</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="ui divider"></div>
+          <div class="tmw-row">
+            <div class="left-mod-col">
+              <div class="sub-title-modal">Discount</div>
+            </div>
+            <div class="right-mod-col">
+              <div class="sub-title-modal-value">{{ jkshopSetting.getPriceFormatted(basket.total_global_discount) }}</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="ui divider"></div>
+          <div class="tmw-row">
+            <div class="left-mod-col">
+              <div class="sub-title-modal">ORDER TOTAL</div>
+            </div>
+            <div class="right-mod-col">
+              <div class="sub-title-modal-value"><strong>{{ basket.total_price_with_shipping_formatted }}</strong></div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="basket-content-wrapper" id="basket-content-wrapper">  
+          {{ form_ajax('onRunBasketAddress') }}
+            {% if (basket.products|length == 0) %}
+              <div style="margin-top: 30px;">
+                Cart is empty!
+              </div>
+            {% else %}
+              <button class="btn btn-primary btn-01" id="buy-product-btn" data-request="onCompleteOrder" type="submit">BUY PRODUCT <span class="glyphicon glyphicon-chevron-right"></span></button>
+            {% endif %}
+          </form>    
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

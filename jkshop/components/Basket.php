@@ -32,6 +32,12 @@ class Basket extends ComponentBase
                 'default'     => '#jkshop-basket-component-wrapper',
                 'type'        => 'string'
             ],
+            'idElementWrapperBasketComponentModal' => [
+                'title'       => 'ID Element Wrapper Basket Component',
+                'description' => 'This Element will be refresh after ajax call - change quantity, etc..  (start with #)',
+                'default'     => '#modal-wrapper',
+                'type'        => 'string'
+            ],
             'productPage' => [
                 'title'       => 'Product page',
                 'description' => 'Product detail page',
@@ -61,7 +67,8 @@ class Basket extends ComponentBase
         $data["jkshopSetting"] = \Jiri\JKShop\Models\Settings::instance();
         
         return [
-            $this->property("idElementWrapperBasketComponent") => $this->renderPartial('::basket-0', $data)
+            $this->property("idElementWrapperBasketComponent") => $this->renderPartial('::basket-1-payment-method', $data),
+            $this->property("idElementWrapperBasketComponentModal") => $this->renderPartial('::basket-popup', $data)
         ]; 
     }    
     
@@ -72,7 +79,8 @@ class Basket extends ComponentBase
         $data["jkshopSetting"] = \Jiri\JKShop\Models\Settings::instance();
         
         return [
-            $this->property("idElementWrapperBasketComponent") => $this->renderPartial('::basket-1-shipping-payment', $data)
+            $this->property("idElementWrapperBasketComponent") => $this->renderPartial('::basket-1-shipping-payment', $data),
+            $this->property("idElementWrapperBasketComponentModal") => $this->renderPartial('::basket-1-shipping-payment', $data)
         ];         
     }    
     
@@ -92,7 +100,8 @@ class Basket extends ComponentBase
         $data["jkshopSetting"] = \Jiri\JKShop\Models\Settings::instance();
         
         return [
-            $this->property("idElementWrapperBasketComponent") => $this->renderPartial('@basket-2-address', $data)
+            $this->property("idElementWrapperBasketComponent") => $this->renderPartial('@basket-3-summary', $data),
+            $this->property("idElementWrapperBasketComponentModal") => $this->renderPartial('::basket-1-shipping-payment', $data)
         ];         
     }
     
@@ -125,6 +134,15 @@ class Basket extends ComponentBase
 
             $basket = $this->setSessionBasket($basket);
         }
+
+        // update basket
+        $shipping_id = post("shipping_id", null);
+        if ($shipping_id != null) {
+            $basket = $this->getSessionBasket();
+            $basket["shipping_id"] = post("shipping_id");
+            $basket["payment_method_id"] = post("payment_method_id");
+            $basket = $this->setSessionBasket($basket);
+        }
         
         // render
         $data = [];
@@ -132,7 +150,8 @@ class Basket extends ComponentBase
         $data["jkshopSetting"] = \Jiri\JKShop\Models\Settings::instance();
         
         return [
-            $this->property("idElementWrapperBasketComponent") => $this->renderPartial('@basket-3-summary', $data)
+            $this->property("idElementWrapperBasketComponent") => $this->renderPartial('@basket-1-payment-method', $data),
+            $this->property("idElementWrapperBasketComponentModal") => $this->renderPartial('::basket-1-shipping-payment', $data)
         ];          
     }
     
@@ -157,6 +176,7 @@ class Basket extends ComponentBase
         // Redirect to PaymentGateway
         if ($order->paymentGateway) {
             $url = $this->controller->pageUrl($order->paymentGateway->payment_page, [ 'slug' => $order->security_token."-".$order->id] );
+            // $url = "http://localhost/oct/thankyou";
             return Redirect::to($url);
         }
         else {
@@ -509,10 +529,14 @@ class Basket extends ComponentBase
             $basket = $this->setSessionBasket($basket);
         }
         
-        
+        $data = array();
+        $data["basket"] = $basket;
+        $data["jkshopSetting"] = \Jiri\JKShop\Models\Settings::instance();
+
         return [
             $this->property("idElementTotalCartPrice") => $basket["total_price_formatted"],
             "basket-added-product" => array_get($basket["products"], $fullKeyProduct), // return for all info about this product from basket
+            $this->property("idElementWrapperBasketComponentModal") => $this->renderPartial('::basket-popup', $data)
         ];
     }
     
@@ -555,6 +579,7 @@ class Basket extends ComponentBase
        
         return [
             $this->property("idElementWrapperBasketComponent") => $this->renderPartial('::basket-0', $data),
+            $this->property("idElementWrapperBasketComponentModal") => $this->renderPartial('::basket-popup', $data),
             $this->property("idElementTotalCartPrice") => $basket["total_price_formatted"]
         ];        
         
@@ -586,7 +611,8 @@ class Basket extends ComponentBase
         }
         
         return [
-            $this->property("idElementWrapperBasketComponent") => $this->renderPartial('::basket-0', $data)
+            $this->property("idElementWrapperBasketComponent") => $this->renderPartial('::basket-0', $data),
+            $this->property("idElementWrapperBasketComponentModal") => $this->renderPartial('::basket-popup', $data)
         ];         
     }
 
