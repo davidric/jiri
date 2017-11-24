@@ -1,7 +1,7 @@
 <div class="basket-page basket-1">
   <div class="container">
     <div class="ui grid">
-      <div class="eleven wide column">
+      <div class="sixteen wide mobile sixteen wide tablet eleven wide computer column">
         <div class="span12">
           <div class="cart-step">
             <span class="step-sign sign1 "><span class="step-text">Purchased Details</span></span>
@@ -13,7 +13,7 @@
         </div>
         <div class="clearfix"></div>         
       </div>
-      <div class="five wide column">
+      <div class="right-checkout-time five wide column">
         <div class="basket-checkout-time">
           <i class="fa fa-exclamation-circle"></i>
           <div class="checkout-time-txt-1">In order to complete your purchase, please click on the checkout button <a class="checkout-time-left" href="#buy-product-btn">below</a>.</div>
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="ui grid">
-      <div class="eleven wide column">
+      <div class="sixteen wide mobile sixteen wide tablet eleven wide computer column">
         <div class="title-5">Choose Payment Method</div>
         <div class="ui radio checkbox pay-method">
           <input type="radio" name="bank-transfer" checked="" tabindex="0" class="hidden">
@@ -32,15 +32,62 @@
           <div class="shipping-box active"><img src="{{'assets/img/icon/bca.png'|theme}}" alt=""></div>
           <div class="shipping-box"><img src="{{'assets/img/icon/mandiri.png'|theme}}" alt=""></div>
           <div class="shipping-box"><img src="{{'assets/img/icon/bri.png'|theme}}" alt=""></div>
-          <div class="shipping-box"><img src="{{'assets/img/icon/citi.png'|theme}}" alt=""></div>
         </div>
         <div class="clearfix"></div>
         <div class="pm-text">
           <div class="pm-text-1">Note</div>
           <div class="pm-text-1">We only accedivt payment via bank transfer at the moment, for more information please contact our <span class="links">customer service</span></div>
         </div>
+
+        <div class="clearfix"></div>
+
+        <div class="title-5 your-order">Your Order</div>
+        <div class="basket-0-price-md sixteen wide mobile sixteen wide tablet five wide computer column">
+          <div class="total-modal-wrapper">
+            <div class="tmw-row">
+              <div class="left-mod-col">
+                <div class="sub-title-modal">Sub-total</div>
+              </div>
+              <div class="right-mod-col">
+                <div class="sub-title-modal-value">{{ basket.total_price_formatted }}</div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="ui divider"></div>
+            <div class="tmw-row">
+              <div class="left-mod-col">
+                <div class="sub-title-modal">Shipping</div>
+              </div>
+              <div class="right-mod-col">
+                <div class="sub-title-modal-value">{{ jkshopSetting.getPriceFormatted(basket.shipping.getCurrentPriceWithTax(basket)) }}</div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="ui divider"></div>
+            <div class="tmw-row">
+              <div class="left-mod-col">
+                <div class="sub-title-modal">Discount</div>
+              </div>
+              <div class="right-mod-col">
+                <div class="sub-title-modal-value">{{ jkshopSetting.getPriceFormatted(basket.total_global_discount) }}</div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="ui divider"></div>
+            <div class="tmw-row">
+              <div class="left-mod-col">
+                <div class="sub-title-modal">ORDER TOTAL</div>
+              </div>
+              <div class="right-mod-col">
+                <div class="sub-title-modal-value"><strong>{{ basket.total_price_formatted }}</strong></div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
       </div>
-      <div class="five wide column">
+      <div class="sixteen wide mobile sixteen wide tablet five wide computer column">
         <div class="total-modal-wrapper">
           <div class="tmw-row">
             <div class="left-mod-col">

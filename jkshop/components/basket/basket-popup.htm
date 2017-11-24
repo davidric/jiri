@@ -7,28 +7,32 @@
       {% for key, productJson in basket.products  %}
       <div class="item-wrapper row basket-product-row">
         <div class="ui grid">
-          <div class="five wide column">
+          <div id="modal-purchase-1-left" class="five wide column">
             {% if productJson.product.images|length > 0 %}
             <img src="{{ productJson.product.images[0].path }}" class="cursor-pointer img-responsive" onclick="location.href = '{{ productJson.product.url}}'" >
             {% endif %}
           </div>
-          <div class="eleven wide column">
+          <div id="modal-purchase-1-right" class="sixteen wide mobile eleven wide tablet eleven wide computer column">
+            {% if productJson.product.images|length > 0 %}
+            <img src="{{ productJson.product.images[0].path }}" class="cursor-pointer img-responsive" onclick="location.href = '{{ productJson.product.url}}'" >
+            {% endif %}
             <a class="title-item-modal cursor-pointer" onclick="location.href = '{{ productJson.product.url}}'">{{ productJson.product.title }}</a>
+            <div class="clearfix"></div>
             <div class="ui divider"></div>
             <div class="ui grid"> 
-              <div class="seven wide column">  
+              <div class="eight wide mobile seven wide tablet seven wide computer column">  
                 <div class="sub-title-modal">Unit Price</div>
                 <div>{{ jkshopSetting.getPriceFormatted(productJson.price+productJson.current_discount) }}</div> 
                 
               </div>
-              <div class="seven wide column"> 
+              <div class="eight wide mobile seven wide tablet seven wide computer column"> 
                 <div class="sub-title-modal">Size in stocks</div>
                 <div>{{productJson.options_text}}</div>
               </div>
             </div>
             <div class="ui divider"></div>
             <div class="ui grid">
-              <div class="seven wide column">
+              <div class="eight wide mobile seven wide tablet seven wide computer column">
                 <div class="sub-title-modal">Quantity</div>
                 <div class="increment-btn">     
                   <div class="ui disabled left action input">
@@ -42,7 +46,7 @@
                   </div>
                 </div>            
               </div>
-              <div class="seven wide column">
+              <div class="eight wide mobile seven wide tablet seven wide computer column">
                 <div class="sub-title-modal">Total</div>
                 {% if productJson.current_discount > 0 %}
                     (-{{ jkshopSetting.getPriceFormatted(productJson.current_discount) }}/ pc)
@@ -58,7 +62,7 @@
     </div>
     <div class="basket-products-total">
       <div class="ui grid">
-        <div class="left-tmw eight wide column">
+        <div class="left-tmw sixteen wide mobile eight wide tablet eight wide computer column">
           <div class="total-modal-wrapper">
             <form class="form-horizontal" data-request="onAddCouponCode">
               <div class="row">
@@ -101,12 +105,12 @@
               Get extra 7% Off for gold circle or extra 4% Off for Silver Circle Member Only on Behaku Brands
             </div>
             <div class="ft-1-2">
-              <img src="http://localhost/oct/themes/behaku/assets/img/icon/app-store.png" srcset="http://localhost/oct/themes/behaku/assets/img/icon/app-store@2x.png 2x" ,="" "http:="" localhost="" oct="" themes="" behaku="" assets="" img="" icon="" app-store@3x.png="" 3x"="" class="icon-footer-01">
-              <img src="http://localhost/oct/themes/behaku/assets/img/icon/play-store.png" srcset="http://localhost/oct/themes/behaku/assets/img/icon/play-store@2x.png 2x" ,="" "http:="" localhost="" oct="" themes="" behaku="" assets="" img="" icon="" play-store@3x.png="" 3x"="" class="icon-footer-01">
+              <img src="https://behaku.davidrica.com/themes/behaku/assets/img/icon/app-store.png" class="icon-footer-01">
+              <img src="https://behaku.davidrica.com/themes/behaku/assets/img/icon/play-store.png" class="icon-footer-01">
             </div>
           </div>
         </div>
-        <div class="eight wide column">
+        <div class="sixteen wide mobile eight wide tablet eight wide computer column">
           <div class="total-modal-wrapper">
             <div class="tmw-row">
               <div class="left-mod-col">
@@ -151,8 +155,13 @@
         </div>
       </div>     
     </div>
-    <div class="basket-products-buttons btn-01">
-      <a class="btn btn-primary" href="/oct/basket">CONTINUE TO  CHECKOUT<span class="glyphicon glyphicon-chevron-right"></span></a>
-    </div>
+    <!-- <a href="/basket" class="basket-products-buttons btn-01">
+      CONTINUE TO  CHECKOUT
+    </a> -->
+    <a href="/basket">
+      <div class="basket-products-buttons btn-01">
+        CONTINUE TO  CHECKOUT
+      </div>
+    </a>
     {% endif %}
 </div>
