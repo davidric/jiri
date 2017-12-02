@@ -95,7 +95,8 @@ class Plugin extends PluginBase {
     public function registerNavigation() {
         return [
             'jkshop' => [
-                'label' => 'jiri.jkshop::lang.plugin.main_menu',
+                // 'label' => 'jiri.jkshop::lang.plugin.main_menu',
+                'label' => 'Behaku',
                 'url' => Backend::url('jiri/jkshop/orders'),
                 'icon' => 'icon-shopping-cart',
                 'permissions' => ['jiri.jkshop.*'],

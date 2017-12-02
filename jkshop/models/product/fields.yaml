@@ -12,6 +12,7 @@ tabs:
         slug:
             tab: jiri.jkshop::lang.products.detail
             label: jiri.jkshop::lang.products.slug
+            comment: Jangan diubah!
             span: auto
             preset:
                 field: title
